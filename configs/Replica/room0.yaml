@@ -1,11 +1,11 @@
 # Sequence parameters
-sequence_type: "icl_nuim.ICLNUIMSequence"
+sequence_type: "replica.ReplicaSequence"
 sequence_kwargs:
-  path: "/media/jingwen/Data1/nice-slam_data/ICL/lr_kt0_noise"
+  path: "/media/jingwen/Data1/nice-slam_data/Replica/room0"
   start_frame: 0
   end_frame: -1                                       # Run all frames
-  first_tq: [-1.4, 1.5, 1.5, 0.0, -1.0, 0.0, 0.0]     # Starting pose
-log_dir: "logs/ICL"
+#  first_tq: [-1.4, 1.5, 1.5, 0.0, -1.0, 0.0, 0.0]     # Starting pose
+log_dir: "logs/Replica/room0"
 
 # Network parameters (network structure, etc. will be inherited from the training config)
 training_hypers: "ckpt/default/hyper.json"
@@ -18,8 +18,8 @@ vis: false
 resolution: 4
 
 # These two define the range of depth observations to be cropped. Unit is meter.
-depth_cut_min: 0.5
-depth_cut_max: 5.0
+depth_cut_min: 0.0
+depth_cut_max: 6.0
 
 meshing_interval: 20
 integrate_interval: 20
@@ -27,8 +27,8 @@ integrate_interval: 20
 # Mapping parameters
 mapping:
   # Bound of the scene to be reconstructed
-  bound_min: [-3.5, -0.5, -2.5]
-  bound_max: [4.5, 3.5, 5.5]
+  bound_min: [-10., -10., -10.]  # [-3., -4., -2.]
+  bound_max: [10., 10., 10.]  # [3., 2.5, 2.5]
   voxel_size: 0.1
   # Prune observations if detected as noise.
   prune_min_vox_obs: 16

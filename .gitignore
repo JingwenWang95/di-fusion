@@ -148,3 +148,5 @@ debug/
 
 sampler_cuda/bin
 sampler_cuda/build
+
+logs

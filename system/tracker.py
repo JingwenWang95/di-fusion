@@ -264,6 +264,7 @@ class SDFTracker:
                 if cur_energy > last_energy:
                     cur_delta_pose = last_delta_pose
                     break
+                    # pass
                 else:
                     last_delta_pose = copy.deepcopy(cur_delta_pose)
                     last_energy = cur_energy

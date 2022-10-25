@@ -1,3 +1,4 @@
+import os
 import importlib
 import open3d as o3d
 import argparse
@@ -70,6 +71,10 @@ def refresh(vis):
     # Do tracking.
     frame_pose = vis_param.tracker.track_camera(frame_data.rgb, frame_data.depth, frame_data.calib,
                                                 vis_param.sequence.first_iso if len(vis_param.tracker.all_pd_pose) == 0 else None)
+
+    # only mapping
+    # frame_pose = vis_param.tracker.track_camera(frame_data.rgb, frame_data.depth, frame_data.calib,
+    #                                             frame_data.gt_pose)
     tracker_pc, tracker_normal = vis_param.tracker.last_processed_pc
 
     if vis:
@@ -114,6 +119,9 @@ if __name__ == '__main__':
     args.mapping = exp_util.dict_to_args(args.mapping)
     args.tracking = exp_util.dict_to_args(args.tracking)
 
+    if not os.path.exists(args.log_dir):
+        os.makedirs(args.log_dir)
+
     # Load in sequence.
     seq_package, seq_class = args.sequence_type.split(".")
     sequence_module = importlib.import_module("dataset.production." + seq_package)
@@ -153,3 +161,9 @@ if __name__ == '__main__':
                 refresh(None)
         except StopIteration:
             pass
+
+    # extract the final mesh
+    map_mesh = vis_param.map.extract_mesh(vis_param.args.resolution, int(4e6), max_std=0.15,
+                                          extract_async=vis_param.args.run_async, interpolate=True)
+    o3d.io.write_triangle_mesh(os.path.join(args.log_dir, "mesh_final.ply"), map_mesh)
+

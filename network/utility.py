@@ -82,7 +82,7 @@ def forward_model(model: nn.Module, network_input: torch.Tensor = None,
     assert network_input.ndimension() == 2
 
     n_chunks = math.ceil(network_input.size(0) / max_sample)
-    assert not no_detach or n_chunks == 1
+    # assert not no_detach or n_chunks == 1
 
     network_input = torch.chunk(network_input, n_chunks)
 
